@@ -40,13 +40,13 @@ public class JsonMapper {
                     sb = new StringBuilder(sb.toString().replaceAll("\\[(\\d)\\]\\.", ""));
                     if (list.get(i) instanceof LinkedHashMap) {
                         jsonToMap(key, sb.append("[").append(i).append("]").append(".").toString(), list.get(i), result);
-                    } else if (list.get(i).equals(key))
-                        result.put(sb.toString(), String.valueOf(e.getValue()));
+                    } else if (e.getKey().equals(key)){
+                        result.put(sb.toString(), String.valueOf(e.getValue()));}
                 }
             } else {
                 if (!(e.getValue() instanceof LinkedHashMap)) {
-                    if (e.getKey().equals(key))
-                        result.put(sb.toString(), String.valueOf(e.getValue()));
+                    if (e.getKey().equals(key)){
+                        result.put(sb.toString(), String.valueOf(e.getValue()));}
                 } else
                     jsonToMap(key, sb.append(".").toString(), e.getValue(), result);
             }
