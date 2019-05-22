@@ -11,7 +11,7 @@ public class JsonMapper {
     public static void main(String[] args) {
 
         JsonMapper mapper = new JsonMapper();
-        String jsonString = FileUtility.convertStreamToString("sample6.json");
+        String jsonString = FileUtility.convertStreamToString("sample.json");
         Map result = mapper.jsonToMap("type", jsonString);
         System.out.println(result);
     }
