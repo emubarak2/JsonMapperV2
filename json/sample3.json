@@ -5,7 +5,7 @@
     "menuitem": [
       {"type": "New", "onclick": "CreateNewDoc()"},
       {"value": "Open", "type": "OpenDoc()"},
-      {"type": "Close", "type": "CloseDoc()"}
+      {"type": "Close", "test": "CloseDoc()"}
     ]
   }
 }}
