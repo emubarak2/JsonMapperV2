@@ -11,7 +11,7 @@ public class JsonMapper {
     public static void main(String[] args) {
 
         JsonMapper mapper = new JsonMapper();
-        String jsonString = FileUtility.convertStreamToString("sample.json");
+        String jsonString = FileUtility.convertStreamToString("sample6.json");
         Map result = mapper.jsonToMap("type", jsonString);
         System.out.println(result);
     }
@@ -19,7 +19,7 @@ public class JsonMapper {
     public Map jsonToMap(String key, String jsonString) {
 
         Map<String, Object> flattenJson = JsonFlattener.flattenAsMap(jsonString);
-        return flattenJson.entrySet().stream().filter(d ->  d.getKey().equals(key)||  d.getKey().endsWith("." + key) ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        return flattenJson.entrySet().stream().filter(m ->  m.getKey().equals(key)||  m.getKey().endsWith("." + key) ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }
 
