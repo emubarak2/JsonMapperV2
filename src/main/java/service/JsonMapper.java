@@ -14,9 +14,9 @@ public class JsonMapper {
     public static void main(String[] args) {
 
         JsonMapper mapper = new JsonMapper();
-        Map jsonMap = mapper.getJsonObject("sample3.json");
-        Map test = mapper.jsonToMap("type", "", jsonMap, new HashMap());
-        System.out.println(test);
+        Map jsonMap = mapper.getJsonObject("sample4.json");
+        Map result = mapper.jsonToMap("type", "", jsonMap, new HashMap());
+        System.out.println(result);
     }
 
     public Map getJsonObject(String fileName) {
@@ -31,26 +31,30 @@ public class JsonMapper {
         }
     }
 
+    public Map jsonToMap(String key, String path, Object jsonMap, Map<String, String> result) {
 
-    public Map jsonToMap(String key, String path, Map<String, Object> jsonMap, Map<String, String> result) {
+        for (Map.Entry<String, Object> e : ((LinkedHashMap<String, Object>) jsonMap).entrySet()) {
+            StringBuilder sb = new StringBuilder().append(path).append(e.getKey());
 
-        for (Map.Entry<String, Object> e : jsonMap.entrySet()) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(path).append(e.getKey());
             if (e.getValue() instanceof ArrayList) {
                 List<LinkedHashMap> list = (List<LinkedHashMap>) e.getValue();
+
                 for (int i = 0; i < list.size(); i++) {
                     sb = new StringBuilder(sb.toString().replaceAll("\\[(\\d)\\]\\.", ""));
-                    jsonToMap(key, sb.append("[").append(i).append("]").append(".").toString(), list.get(i), result);
+                    if (list.get(i) instanceof LinkedHashMap) {
+                        jsonToMap(key, sb.append("[").append(i).append("]").append(".").toString(), list.get(i), result);
+                    } else {
+                        if (e.getKey().equals(key))
+                            result.put(sb.toString(), String.valueOf(e.getValue()));
+                    }
                 }
             } else {
                 if (!(e.getValue() instanceof LinkedHashMap)) {
                     if (e.getKey().equals(key))
-
                         result.put(sb.toString(), String.valueOf(e.getValue()));
                 } else {
 
-                    jsonToMap(key, sb.append(".").toString(), ((LinkedHashMap) e.getValue()), result);
+                    jsonToMap(key, sb.append(".").toString(), e.getValue(), result);
                 }
             }
         }
